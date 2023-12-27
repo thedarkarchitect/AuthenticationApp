@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -18,6 +20,27 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        //load the values from .properties file
+        val keystoreFile = project.rootProject.file("local.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        //return empty key in case something goes wrong
+        val superbaseKey = properties.getProperty("SUPERBASE_KEY")
+        val superbaseUrl = properties.getProperty("SUPERBASE_URL")
+        buildConfigField(
+            type = "String",
+            name = "SUPERBASE_KEY",
+            value = superbaseKey
+        )
+        buildConfigField(
+            type = "String",
+            name = "SUPERBASE_URL",
+            value = superbaseUrl
+        )
+        resourceConfigurations += setOf()
+        signingConfig = signingConfigs.getByName("debug")
     }
 
     buildTypes {
@@ -37,6 +60,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -59,7 +83,14 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.compose.material:material-icons-extended-android:1.5.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
+    //ktor cio client
+    implementation("io.ktor:ktor-client-cio:2.3.7")
+    //superbase gotrue db
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.0.2")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
