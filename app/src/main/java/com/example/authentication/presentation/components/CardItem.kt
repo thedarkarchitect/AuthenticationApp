@@ -41,6 +41,7 @@ import com.example.authentication.ui.theme.CustomBlue
 fun CardItem(
     modifier: Modifier = Modifier,
     buttonText: String,
+    buttonClicked: () -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -96,7 +97,7 @@ fun CardItem(
             )
             Button(
                 modifier = modifier.fillMaxWidth(),
-                onClick = { /*TODO*/ },
+                onClick = buttonClicked,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = CustomBlue,
                     contentColor = Color.White
@@ -183,6 +184,9 @@ fun CardDivider(
 @Composable
 fun CardItemPreview() {
     AuthenticationTheme {
-        CardItem(buttonText = "Sign up")
+        CardItem(
+            buttonText = "Sign up",
+            buttonClicked = {}
+        )
     }
 }

@@ -13,11 +13,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.authentication.ui.theme.AuthenticationTheme
+import com.example.authentication.utils.Screen
 
 @Composable
 fun Home(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -25,9 +29,18 @@ fun Home(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            modifier = modifier.padding(30.dp).fillMaxWidth(),
+            modifier = modifier
+                .padding(30.dp)
+                .fillMaxWidth(),
             shape = RoundedCornerShape(50),
-            onClick = { /*TODO*/ }
+            onClick = {
+                //will logout action
+
+                //navigate to the loginScreen
+                navController.navigate(
+                    Screen.Login.route
+                )
+            }
         ) {
             Text(text = "Logout")
         }
@@ -38,6 +51,8 @@ fun Home(
 @Composable
 fun HomePreview() {
     AuthenticationTheme {
-        Home()
+        Home(
+            navController = rememberNavController()
+        )
     }
 }

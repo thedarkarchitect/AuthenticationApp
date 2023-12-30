@@ -1,5 +1,6 @@
 package com.example.authentication.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,11 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
 fun TopHeading(
     modifier: Modifier = Modifier,
-    heading: String
+    heading: String,
+    navController: NavController
 ) {
     Row(
         verticalAlignment = Alignment.Bottom
@@ -28,7 +31,8 @@ fun TopHeading(
                 modifier = modifier
                     .align(Alignment.CenterVertically)
                     .padding(end = 8.dp)
-                    .size(40.dp),
+                    .size(40.dp)
+                    .clickable {  },
                 imageVector = Icons.Default.ArrowBack,
                 tint = Color.White ,
                 contentDescription = null

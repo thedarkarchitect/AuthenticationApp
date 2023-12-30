@@ -13,19 +13,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.authentication.R
 import com.example.authentication.presentation.components.Annote
 import com.example.authentication.presentation.components.CardItem
 import com.example.authentication.presentation.components.TopHeading
 import com.example.authentication.ui.theme.AuthenticationTheme
+import com.example.authentication.utils.Screen
 
 
 @Composable
 fun SignupPage(
     modifier: Modifier = Modifier,
+    navController: NavController,
 ) {
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxWidth()
+            .fillMaxSize()
     ){
         Image(
             painter = painterResource(id = R.drawable.ic_background),
@@ -45,15 +51,30 @@ fun SignupPage(
             ){
                 TopHeading(
                     modifier = modifier.padding(bottom = 32.dp),
-                    heading = "Sign up"
+                    heading = "Sign up",
+                    navController = navController
                 )
             }
-            CardItem(buttonText = "Sign up")
+            CardItem(
+                buttonText = "Sign up",
+                buttonClicked = {
+                    //action from viewmodel
+
+                    //navigate to login to confirm signup
+                    navController.navigate(
+                        Screen.Login.route
+                    )
+                }
+            )
 
             Annote(
-//                modifier = modifier.align(Alignment.CenterStart),
                 direction = "Already have an account?",
-                nextPage = "Log in"
+                nextPage = "Log in",
+                textClicked = {
+                    navController.navigate(
+                        Screen.Login.route
+                    )
+                }
             )
         }
     }
@@ -62,8 +83,10 @@ fun SignupPage(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginPagePreview() {
+fun SignupPagePreview() {
     AuthenticationTheme {
-        SignupPage()
+        SignupPage(
+            navController = rememberNavController()
+        )
     }
 }
