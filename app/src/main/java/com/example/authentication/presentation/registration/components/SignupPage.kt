@@ -1,6 +1,6 @@
-package com.example.authentication.presentation.registration
+package com.example.authentication.presentation.registration.components
 
-import androidx.compose.foundation.Image
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,16 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.authentication.R
+import com.example.authentication.data.model.UserState
 import com.example.authentication.presentation.components.Annote
 import com.example.authentication.presentation.components.CardItem
 import com.example.authentication.presentation.components.TopHeading
-import com.example.authentication.ui.theme.AuthenticationTheme
+import com.example.authentication.presentation.registration.SignupEvents
+import com.example.authentication.presentation.registration.SignupViewModel
 import com.example.authentication.ui.theme.CustomBlue
 import com.example.authentication.ui.theme.CustomBlue1
 import com.example.authentication.ui.theme.CustomBlue2
@@ -32,14 +31,22 @@ import com.example.authentication.utils.Screen
 fun SignupPage(
     modifier: Modifier = Modifier,
     navController: NavController,
+    viewModel: SignupViewModel
 ) {
+    val context = LocalContext.current
+    val state = viewModel.signState.value
+    val onEvent = viewModel::onEvent
+
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(
-                brush = Brush.verticalGradient(listOf(
-                    CustomBlue1, CustomBlue2, CustomBlue
-                ))
+                brush = Brush.verticalGradient(
+                    listOf(
+                        CustomBlue1, CustomBlue2, CustomBlue
+                    )
+                )
             )
     ){
         Column(
@@ -63,12 +70,26 @@ fun SignupPage(
                 buttonText = "Sign up",
                 buttonClicked = {
                     //action from viewmodel
-
+                    viewModel.signUp(
+                        context = context,
+                        userName = state.userName,
+                        userEmail = state.email,
+                        userPassword = state.password
+                    )
+                    if(state.userState == UserState.Success("Registered user Successfully")){
+                        Toast.makeText(context, "User Signed up SuccessFully", Toast.LENGTH_SHORT).show()
+                    }
                     //navigate to login to confirm signup
                     navController.navigate(
                         Screen.Login.route
                     )
-                }
+                },
+                emailValue = state.email,
+                onEmailChangeValue = { onEvent(SignupEvents.EmailChanged(it)) },
+                password = state.password,
+                onPasswordChangeValue = { onEvent(SignupEvents.PasswordChanged(it)) },
+                userName = state.userName,
+                onUserNameChangeValue = { onEvent(SignupEvents.UsernameChanged(it)) },
             )
 
             Annote(
@@ -85,12 +106,13 @@ fun SignupPage(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun SignupPagePreview() {
-    AuthenticationTheme {
-        SignupPage(
-            navController = rememberNavController()
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SignupPagePreview() {
+//    AuthenticationTheme {
+//        SignupPage(
+//            navController = rememberNavController(),
+//            viewModel = hiltViewModel<SignupViewModel>()
+//        )
+//    }
+//}

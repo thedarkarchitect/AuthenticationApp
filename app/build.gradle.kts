@@ -3,6 +3,8 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -94,6 +96,12 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:2.3.7")
     //superbase gotrue db
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.0.2")
+
+    //dagger hilt
+    implementation("com.google.dagger:hilt-android:2.49")
+    ksp("com.google.dagger:dagger-compiler:2.49")
+    ksp("com.google.dagger:hilt-compiler:2.49")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

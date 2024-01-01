@@ -23,10 +23,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +37,13 @@ import com.example.authentication.ui.theme.CustomBlue
 fun CardItem(
     modifier: Modifier = Modifier,
     buttonText: String,
-    buttonClicked: () -> Unit
+    buttonClicked: () -> Unit,
+    emailValue: String,
+    onEmailChangeValue: (String) -> Unit,
+    password: String,
+    onPasswordChangeValue: (String) -> Unit,
+    userName: String,
+    onUserNameChangeValue: (String) -> Unit,
 ) {
     Card(
         modifier = modifier,
@@ -61,16 +63,14 @@ fun CardItem(
         ){
 
 
-            var email by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-            var name by remember { mutableStateOf("") }
+//            var email by remember { mutableStateOf("") }
+//            var password by remember { mutableStateOf("") }
+//            var name by remember { mutableStateOf("") }
 
             if(buttonText == "Sign up"){
                 TextFieldItem(
-                    value = name,
-                    onChangeValue = {
-                        name = it
-                    },
+                    value = userName,
+                    onChangeValue = onUserNameChangeValue,
                     label = "Your Name",
                     icon = Icons.Default.Person,
                     modifier = modifier.padding(top = 8.dp)
@@ -78,20 +78,16 @@ fun CardItem(
             }
 
             TextFieldItem(
-                value = email,
-                onChangeValue = {
-                                email = it
-                },
+                value = emailValue,
+                onChangeValue = onEmailChangeValue,
                 label = "Email",
                 icon = Icons.Default.Email,
                 modifier = modifier.padding(top = 8.dp)
             )
             TextFieldItem(
                 value = password,
-                onChangeValue = {
-                    password = it
-                },
-                label = "Password",
+                onChangeValue = onPasswordChangeValue,
+                label = "Password (8 characters)",
                 icon = Icons.Default.Lock,
                 modifier = modifier.padding(top = 8.dp, bottom = 8.dp)
             )
@@ -186,7 +182,13 @@ fun CardItemPreview() {
     AuthenticationTheme {
         CardItem(
             buttonText = "Sign up",
-            buttonClicked = {}
+            buttonClicked = {},
+            emailValue = "",
+            onEmailChangeValue = {},
+            password = "",
+            onPasswordChangeValue = {},
+            userName = "",
+            onUserNameChangeValue = {},
         )
     }
 }

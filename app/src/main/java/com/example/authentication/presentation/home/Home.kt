@@ -11,17 +11,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.authentication.ui.theme.AuthenticationTheme
+import com.example.authentication.presentation.login.LoginViewModel
 import com.example.authentication.utils.Screen
 
 @Composable
 fun Home(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
+    loginVm: LoginViewModel
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -35,10 +34,11 @@ fun Home(
             shape = RoundedCornerShape(50),
             onClick = {
                 //will logout action
-
+                loginVm.logout()
                 //navigate to the loginScreen
-                navController.navigate(
-                    Screen.Login.route
+                navController.popBackStack(
+                    route = Screen.Login.route,
+                    inclusive = false
                 )
             }
         ) {
@@ -47,12 +47,12 @@ fun Home(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomePreview() {
-    AuthenticationTheme {
-        Home(
-            navController = rememberNavController()
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomePreview() {
+//    AuthenticationTheme {
+//        Home(
+//            navController = rememberNavController()
+//        )
+//    }
+//}

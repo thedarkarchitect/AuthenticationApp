@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.authentication.utils.Screen
 
 @Composable
 fun TopHeading(
@@ -32,7 +33,14 @@ fun TopHeading(
                     .align(Alignment.CenterVertically)
                     .padding(end = 8.dp)
                     .size(40.dp)
-                    .clickable {  },
+                    .clickable(
+                        onClick = {
+                            navController.popBackStack(
+                                route = Screen.Login.route,
+                                inclusive = false
+                            )
+                        }
+                    ),
                 imageVector = Icons.Default.ArrowBack,
                 tint = Color.White ,
                 contentDescription = null
